@@ -24,7 +24,7 @@ import java.util.List;
 public class Conversation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long conversationId;
+    private long id;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
@@ -57,9 +57,9 @@ public class Conversation {
     {
         this.member = member;
     }
-    public Conversation(long conversationId)
+    public Conversation(long id)
     {
-        this.conversationId = conversationId;
+        this.id = id;
     }
     public void addQnA(QnA qna)
     {

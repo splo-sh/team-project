@@ -2,8 +2,6 @@ package com.codestates.seb43_main_012.tag.repository;
 
 import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +12,9 @@ public interface ConversationTagRepository extends JpaRepository<ConversationTag
 //    @Query("select ct from ConversationTag ct where ct.conversationId in ?1")
 //    List<ConversationTag> findAllByConversationIdIn(List<Long> conversationIds);
 
-    void deleteByConversationConversationIdAndTagId(long conversationId, long tagId);
-    List<ConversationTag> findAllByConversationConversationId(long conversationId);
-    List<ConversationTag> findAllByConversationConversationIdIn(List<Long> conversationIDs);
-    Optional<ConversationTag> findByConversationConversationIdAndTagName(long conversationId, String tagName);
+    void deleteByConversationIdAndTagId(long conversationId, long tagId);
+    List<ConversationTag> findAllByConversationId(long conversationId);
+    List<ConversationTag> findAllByConversationIdIn(List<Long> conversationIDs);
+    Optional<ConversationTag> findByConversationIdAndTagName(long conversationId, String tagName);
     List<ConversationTag> findAllByTagName(String tagName);
 }

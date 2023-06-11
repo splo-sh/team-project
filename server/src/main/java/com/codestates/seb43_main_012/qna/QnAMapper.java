@@ -6,13 +6,11 @@ import org.springframework.stereotype.Component;
 public class QnAMapper {
     public QnADto.Response qnaToQnAResponseDto(QnA qna)
     {
-        QnADto.Response response = new QnADto.Response(
-                qna.getQnaId(),
+        return new QnADto.Response(
+                qna.getId(),
                 qna.getQuestion(),
                 qna.getAnswer(),
                 qna.isBookmarkStatus()
         );
-
-        return response;
     }
 }

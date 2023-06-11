@@ -36,7 +36,7 @@ public class CategoryService {
 
         List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByCategoryId(categoryId);
         conversationCategories.stream().forEach(conversationCategory -> {
-            conversationCategory.setBookmarkName(categoryName);
+            //conversationCategory.setCategoryName(categoryName);
             conversationCategoryRepository.save(conversationCategory);
         });
 

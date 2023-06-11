@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Bookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long bookmarkId;
+    private long id;
 
 //    @ManyToOne
 //    @JoinColumn(name = "MEMBER_ID")
@@ -25,8 +25,6 @@ public class Bookmark {
     @JoinColumn(name = "CONVERSATION_ID")
     private Conversation conversation;
 
-    @Setter
-    private String bookmarkName;
     public void addConversation(Conversation conversation)
     {
         this.conversation = conversation;

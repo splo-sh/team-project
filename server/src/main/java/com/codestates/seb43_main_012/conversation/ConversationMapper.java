@@ -1,8 +1,6 @@
 package com.codestates.seb43_main_012.conversation;
 
-import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.category.Category;
-import com.codestates.seb43_main_012.category.CategoryRepository;
 import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryDto;
 import com.codestates.seb43_main_012.collection.CollectionDto;
@@ -22,7 +20,6 @@ public class ConversationMapper {
 
     private final QnAMapper qnaMapper;
     private final TagRepository tagRepository;
-    private final CategoryRepository categoryRepository;
 
     public ConversationDto.Response responseForGetOneConversation(Conversation conversation, List<Category> categories)
     {
@@ -37,7 +34,7 @@ public class ConversationMapper {
         );
 
         ConversationDto.Response response = new ConversationDto.Response(
-                conversation.getConversationId(),
+                conversation.getId(),
                 new MemberDto.ResponseForConversation(conversation.getMember().getId(),conversation.getMember().getUsername()),
                 conversation.getTitle(),
                 qnaResponseList,
@@ -57,14 +54,13 @@ public class ConversationMapper {
 
     public CollectionDto.Response conversationToCollectionResponseDto(Conversation conversation)
     {
-        CollectionDto.Response response = new CollectionDto.Response(
-                conversation.getConversationId(),
+        return new CollectionDto.Response(
+                conversation.getId(),
                 conversationCategoriesToCategoryResponseDtos(conversation.getBookmarks()),
                 conversation.getTags(),
                 conversation.getPinned(),
                 conversation.getTitle()
         );
-        return response;
     }
 
     private List<ConversationCategoryDto> conversationCategoriesToCategoryResponseDtos(List<ConversationCategory> conversationCategories)
@@ -110,7 +106,7 @@ public class ConversationMapper {
 
         ConversationDto.ResponseForAll response =
                 new ConversationDto.ResponseForAll(
-                        conv.getConversationId(),
+                        conv.getId(),
                         new MemberDto.ResponseForConversation(conv.getMember().getId(),conv.getMember().getUsername()),
                         conv.getTitle(),
                         conv.getAnswerSummary(),

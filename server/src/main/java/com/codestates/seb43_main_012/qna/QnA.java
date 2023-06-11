@@ -4,7 +4,6 @@ import com.codestates.seb43_main_012.conversation.Conversation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -19,7 +18,7 @@ public class QnA {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long qnaId;
+    private long id;
     private String question;
     @Column(length=10000)
     private String answer;

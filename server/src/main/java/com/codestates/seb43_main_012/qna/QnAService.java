@@ -2,8 +2,6 @@ package com.codestates.seb43_main_012.qna;
 
 import com.codestates.seb43_main_012.conversation.Conversation;
 import com.codestates.seb43_main_012.conversation.ConversationRepository;
-import com.codestates.seb43_main_012.conversation.ConversationService;
-import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -35,8 +33,7 @@ public class QnAService {
 
     public List<QnA> findQnAs(long conversationId)
     {
-        List<QnA> QnAs = qnaRepository.findQnAsByConversationId(conversationId);
-        return QnAs;
+        return qnaRepository.findQnAsByConversationId(conversationId);
     }
 
     public List<Map<String, String>> buildMessage(long conversationId)
@@ -68,7 +65,7 @@ public class QnAService {
 
         qnaList.stream().forEach(qna -> {
                 if(qna.getConversation().getMember().getId() == memberId)
-                    IDs.add(qna.getConversation().getConversationId());
+                    IDs.add(qna.getConversation().getId());
         });
 
         return IDs;
@@ -125,10 +122,10 @@ public class QnAService {
 
         conversation.setActivityLevel(conversation.getActivityLevel()+1);
         conversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
-        conversationRepository.save(conversation);
+        //conversationRepository.save(conversation);
 
-        QnA savedQnA = saveQnA(qna);
-        conversation.addQnA(savedQnA);
+        //QnA savedQnA = saveQnA(qna);
+        conversation.addQnA(qna);
 
         Map<String, String> message2 = new HashMap<>();
         message2.put("role", "assistant");
@@ -136,10 +133,10 @@ public class QnAService {
         messages.add(message2);
 
         System.out.println();
-        System.out.println(String.format("%d 번 대화방 ----",conversationId));
+        System.out.println(conversationId+" 번 대화방 ----");
         System.out.println(messages);
         System.out.println();
 
-        return savedQnA;
+        return qna;
     }
 }

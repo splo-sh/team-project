@@ -4,7 +4,6 @@ import com.codestates.seb43_main_012.conversation.Conversation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -26,8 +25,8 @@ public class ConversationCategory {
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
-    @Setter
-    private String bookmarkName;
+//    @Setter
+//    private String categoryName;
 
 //    public ConversationCategory(Conversation conversation, long bookmarkId, String bookmarkName)
 //    {
@@ -39,6 +38,6 @@ public class ConversationCategory {
     {
         this.conversation = conversation;
         this.category = category;
-        this.bookmarkName = category.getName();
+        //this.categoryName = category.getName();
     }
 }

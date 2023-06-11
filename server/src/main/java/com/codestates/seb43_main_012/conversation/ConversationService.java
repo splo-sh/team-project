@@ -28,8 +28,6 @@ import java.util.*;
 @Transactional
 public class ConversationService {
 
-    private final Long MEMBER_ID = 1L;
-
     private final ConversationRepository conversationRepository;
     private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
@@ -41,18 +39,14 @@ public class ConversationService {
     private final ConversationMapper conversationMapper;
     private final CategoryRepository categoryRepository;
 
-    public Conversation saveConversation(Conversation conversation)
-    {
-        return conversationRepository.save(conversation);
-    }
-
     @Transactional
     public Conversation createConversation(long memberId, QnADto.Post dto)
     {
         Conversation conversation = new Conversation();
         conversation.addMember(memberRepository.findById(memberId).orElse(null));
         Conversation savedConversation = conversationRepository.save(conversation);
-        long conversationId = savedConversation.getConversationId();
+
+        long conversationId = savedConversation.getId();
         dto.setConversationId(conversationId);
         qnaService.requestAnswer(dto);
 
@@ -99,7 +93,7 @@ public class ConversationService {
         else
             sortBy = Sort.by(Sort.Direction.DESC, "modifiedAt");
 
-        return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, sortBy);
+        return conversationRepository.findAllByDeleteStatusAndIdIn(false, IDs, sortBy);
     }
 
     public Page<Conversation> findConversations(String sort, String query, long memberId, int page, int size) {
@@ -113,7 +107,7 @@ public class ConversationService {
         else
             pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "modifiedAt"));
 
-        return conversationRepository.findAllByDeleteStatusAndConversationIdIn(false, IDs, pageRequest);
+        return conversationRepository.findAllByDeleteStatusAndIdIn(false, IDs, pageRequest);
     }
 
     @Transactional
@@ -143,7 +137,7 @@ public class ConversationService {
     @Transactional
     public List<Conversation> findBookmarkedConversations(String categoryName, long memberId)
     {
-        List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByBookmarkName(categoryName);
+        List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByCategoryName(categoryName);
         List<Conversation> conversations = new ArrayList<>();
         conversationRepository.findAll();
 
@@ -193,7 +187,7 @@ public class ConversationService {
         findConversation.setSaved(true);
         findConversation.setBookmarked(true);
 
-        if(bookmarkRepository.findByMemberIdAndConversationConversationId(memberId,conversationId).isEmpty())
+        if(bookmarkRepository.findByMemberIdAndConversationId(memberId,conversationId).isEmpty())
         {
             Bookmark bookmark = new Bookmark();
             bookmark.setMemberId(memberId);
@@ -203,7 +197,7 @@ public class ConversationService {
 
         Category category = categoryService.createCategory(memberId, dto.getBookmarkName());
 
-        Optional<ConversationCategory> optional = conversationCategoryRepository.findByConversationConversationIdAndBookmarkName(conversationId, dto.getBookmarkName());
+        Optional<ConversationCategory> optional = conversationCategoryRepository.findByConversationIdAndCategoryName(conversationId, dto.getBookmarkName());
 
         if(optional.isEmpty())
         {
@@ -224,11 +218,11 @@ public class ConversationService {
     {
         Conversation findConversation = findConversation(conversationId);
 
-        conversationCategoryRepository.deleteByConversationConversationIdAndCategoryId(conversationId, bookmarkId);
-        List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByConversationConversationId(conversationId);
+        conversationCategoryRepository.deleteByConversationIdAndCategoryId(conversationId, bookmarkId);
+        List<ConversationCategory> conversationCategories = conversationCategoryRepository.findAllByConversationId(conversationId);
         if(conversationCategories.isEmpty())
         {
-            bookmarkRepository.deleteByMemberIdAndConversationConversationId(memberId,conversationId);
+            bookmarkRepository.deleteByMemberIdAndConversationId(memberId,conversationId);
             findConversation.setBookmarked(false);
         }
 
@@ -243,24 +237,24 @@ public class ConversationService {
         findConversation.setSaved(true);
         findConversation.setTagged(true);
 
-        Tag tag = tagRepository.findByTagName(tagDto.getTagName()).orElse(new Tag(tagDto.getTagName()));
+        Tag tag = tagRepository.findByName(tagDto.getTagName()).orElse(new Tag(tagDto.getTagName()));
         tagRepository.save(tag);
 
-        Optional<ConversationTag> optional = conversationTagRepository.findByConversationConversationIdAndTagName(conversationId, tagDto.getTagName());
+        Optional<ConversationTag> optional = conversationTagRepository.findByConversationIdAndTagName(conversationId, tagDto.getTagName());
 
         if(optional.isEmpty())
         {
             ConversationTag conversationTag = new ConversationTag(
                     findConversation,
-                    tag.getTagId(),
-                    tag.getTagName()
+                    tag.getId(),
+                    tag.getName()
             );
             conversationTagRepository.save(conversationTag);
         }
         findConversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
         conversationRepository.save(findConversation);
 
-        return tag.getTagId();
+        return tag.getId();
     }
 
     @Transactional
@@ -268,11 +262,11 @@ public class ConversationService {
     {
         Conversation findConversation = findConversation(conversationId);
 
-        conversationTagRepository.deleteByConversationConversationIdAndTagId(conversationId, tagId);
+        conversationTagRepository.deleteByConversationIdAndTagId(conversationId, tagId);
 
         // 태그id에 해당하는 row가 convTag table에 없다면 tag삭제
 
-        List<ConversationTag> conversationTags = conversationTagRepository.findAllByConversationConversationId(conversationId);
+        List<ConversationTag> conversationTags = conversationTagRepository.findAllByConversationId(conversationId);
         if(conversationTags.isEmpty()) findConversation.setTagged(false);
 
         return conversationRepository.save(findConversation);

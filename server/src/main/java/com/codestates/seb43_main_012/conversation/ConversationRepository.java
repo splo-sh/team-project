@@ -4,9 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,8 +13,8 @@ public interface ConversationRepository  extends JpaRepository<Conversation, Lon
     List<Conversation> findAllByMemberIdAndSavedAndDeleteStatus(long memberId, boolean isSaved, boolean deleteStatus);
     List<Conversation> findAllByMemberIdAndSavedAndDeleteStatus(long memberId, boolean isSaved, boolean deleteStatus, Sort sort);
 
-    List<Conversation> findAllByDeleteStatusAndConversationIdIn(boolean deleteStatus, List<Long> IDs, Sort sort);
-    Page<Conversation> findAllByDeleteStatusAndConversationIdIn(boolean deleteStatus, List<Long> IDs, Pageable pageable);
+    List<Conversation> findAllByDeleteStatusAndIdIn(boolean deleteStatus, List<Long> IDs, Sort sort);
+    Page<Conversation> findAllByDeleteStatusAndIdIn(boolean deleteStatus, List<Long> IDs, Pageable pageable);
 
 
 }

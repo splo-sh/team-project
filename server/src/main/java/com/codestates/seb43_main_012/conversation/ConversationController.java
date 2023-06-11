@@ -1,23 +1,18 @@
 package com.codestates.seb43_main_012.conversation;
 
-import com.codestates.seb43_main_012.bookmark.Bookmark;
 import com.codestates.seb43_main_012.bookmark.BookmarkDto;
-import com.codestates.seb43_main_012.bookmark.BookmarkRepository;
-import com.codestates.seb43_main_012.category.Category;
-import com.codestates.seb43_main_012.category.CategoryRepository;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnADto;
-import com.codestates.seb43_main_012.qna.QnAService;
 import com.codestates.seb43_main_012.response.MultiResponseDto;
 import com.codestates.seb43_main_012.tag.dto.TagDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 
@@ -34,6 +29,9 @@ public class ConversationController {
     public ResponseEntity generateConversation(@RequestBody QnADto.Post dto,
                                                @AuthenticationPrincipal MemberEntity member)
     {
+        SecurityContext context = SecurityContextHolder.getContext();
+        System.out.println(((MemberEntity)context.getAuthentication().getPrincipal()).getId());
+
         Long memberId = member.getId();
 
         Conversation savedConversation = conversationService.createConversation(memberId, dto);
