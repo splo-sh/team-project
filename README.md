@@ -1,7 +1,7 @@
 </br>
  <h3 align="center">Team Bug Fetish Presents.. <br><br>
 <img alt="chatcrawl" src="./files/logo.png" width="400" > </h3>
-<p align="center">ChatGPT 대화 기록 검색, 북마킹 서비스</p>
+<p align="center">ChatGPT 대화 검색, 북마킹 및 태깅 서비스</p>
 <p align="center">장성아(팀장), 맹승주, 박지원, 순정원, 김민수, 한재영</p>
 <p align="center">
  <a href="http://chatcrawl.live">Live Demo Link</a> </br></br>
@@ -13,23 +13,23 @@
 
 <p align="center">- ChatGPT 처럼 대화세션을 생성하여 질문을 이어서 할 수 있음</p>
 <p align="center">- 생성된 대화세션은 히스토리페이지에서 최신활동순, 활동량순, 오래된순으로 전부 조회 가능</p>
- <p align="center">→ 원하는 대화만 페이지 상단에 고정, 즉시 조회</p>
+ <p align="center">→ 원하는 대화만 페이지 상단에 고정 및 즉시 조회</p>
  <p align="center">→ 질문답변 내용, 태그 검색으로 빠르게 필요한 대화 찾기</p>
 <p align="center">- 원하는 대화만 태그를 추가하거나 북마크하여 컬렉션페이지에서 관리</p>
-<p align="center">→ 보고 싶은 답변만 선택해서 조회 </p>
-<p align="center">→ 저장된 대화, 전답변들 감춰진 상태로 대화 계속 이어서 하기 </p>
+<p align="center">→ 보고 싶은 답변만 선택 조회 </p>
+<p align="center">→ 전답변들 감춰진 상태로 대화 계속 이어서 하기 </p>
 
 <br>
 <br>
 
-<h3 align='center'>확장 가능성..</h3>
+<h3 align='center'>확장 가능성</h3>
  
 <p align="center">- 대화 중 원하는 부분만 하이라이트, 선택 저장</p>
-<p align="center">- AI가 대화세션 내용 자동 요약</p>
-<p align="center">- 공식 ChatGPT와의 대화 데이터를 import해서 관리</p>
+<p align="center">- AI를 통한 대화세션 내용 자동 요약</p>
+<p align="center">- 공식 ChatGPT 대화 데이터를 import해서 관리 및 대화 지속 </p>
 <p align="center">- 공개게시판 기능 (본인 대화 공개 게시, 타인 게시 대화목록 조회, 채택 및 저장)</p>
 <p align="center">- 인공지능 성격 부여, 원하는 인공지능 캐릭터와 대화 (더 원하는 대답을 얻을 수 있도록 scaffolding)</p>
-<p align="center">- 여러 태그 검색, 북마크내 태그 검색 등</p>
+<p align="center">- 여러 태그 (AND/OR) 검색, 해당 북마크 내 태그 검색 등</p>
 
 <br>
 <br>
@@ -39,7 +39,7 @@
 | :---: | :---: | :---: | :---: |  :---: | :---: |
 | <img alt="장성아" src="./files/avatars/bug00.png" height="100" width="100">  | <img alt="박지원" src="./files/avatars/bug06.png" height="100" width="100"> |<img alt="맹승주" src="https://i.ibb.co/JCZT2JG/image.png" height="100" width="90"> | <img alt="순정원" src="./files/avatars/bug02.png" height="100" width="100">| <img alt="김민수" src="./files/avatars/bug01.png" height="100" width="100"> | <img alt="한재영" src="./files/avatars/bug07.png" height="100" width="100"> |
 | [@splazt](https://github.com/splazt) |   [@zi0ne](https://github.com/zi0ne) |  [@mmmkb1](https://github.com/mmmkb1) | [@sundae95](https://github.com/sundae95) | [@mslock](https://github.com/mslock) | [@splo-sh](https://github.com/splo-sh) |
-|<p align="left">- UI 디자인 Lead<br/>- 상단 내비게이션<br/>- 메인 + 히스토리 <br/> - 북마킹, 태깅, 고정 <br/>- 대화 조회, 지속<br/> - 컬렉션 페이지 <br/>- 통합 상태 관리<br/>- 유효성 검사 강화<br/>- AWS 배포 <br/> </p>|<p align="left">- 회원가입<br/>- 로그인 인증<br/>- 마이페이지<br/>- OAuth 로그인<br/>- 소개 페이지<br/>- 히스토리 초안<br/></p>|<p align="left">- 컬렉션 초안<br/>- 저장목록 조회 <br/>- 북마크별 조회 <br/>- 답변 토글 </p>| <p align="left">- 배포환경 구축 <br/>- 태그 초안 <br/> </p>|<p align="left">- 회원가입 기능<br/>- 로그인 기능 <br/>- 보안 기능<br/></p>|<p align="left">- 히스토리 조회, 검색 <br/>- 북마크, 태그별 조회 <br/>- 북마킹, 태깅, 고정<br/>- 대화세션 생성, 지속 </p>|
+|<p align="left">- UI 디자인 Lead<br/>- 상단 내비게이션<br/>- 메인 + 히스토리 <br/> - 북마킹, 태깅, 고정 <br/>- 대화 조회, 지속<br/> - 컬렉션 페이지 <br/>- 통합 상태 관리<br/>- 유효성 검사 강화<br/>- 자동배포 환경 구축 <br/> </p>|<p align="left">- 회원가입<br/>- 로그인 인증<br/>- 마이페이지<br/>- OAuth 로그인<br/>- 소개 페이지<br/>- 히스토리 초안<br/></p>|<p align="left">- 컬렉션 초안<br/>- 저장목록 조회 <br/>- 북마크별 조회 <br/>- 답변 토글 </p>| <p align="left">- 배포환경 구축 <br/>- 태그 초안 <br/> </p>|<p align="left">- 회원가입 기능<br/>- 로그인 기능 <br/>- 보안 기능<br/></p>|<p align="left">- 히스토리 조회, 검색 <br/>- 북마크, 태그별 조회 <br/>- 북마킹, 태깅, 고정<br/>- 대화세션 생성, 지속 </p>|
 
 <br/>
 <br/>
