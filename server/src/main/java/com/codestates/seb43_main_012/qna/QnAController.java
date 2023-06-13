@@ -27,7 +27,7 @@ public class QnAController {
         long conversationId = dto.getConversationId();
         if(conversationId == 0) throw new BusinessLogicException(ExceptionCode.CONV_NOT_FOUND);
 
-        QnA qna = qnaService.requestAnswer(dto);
+        QnA qna = qnaService.requestAnswerPreprocessing(dto);
         QnA savedQnA = qnaService.saveQnA(qna);
 
         return new ResponseEntity<>(qnaMapper.qnaToQnAResponseDto(savedQnA), HttpStatus.OK);

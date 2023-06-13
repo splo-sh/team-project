@@ -19,6 +19,15 @@ import java.util.List;
 public class ConversationDto {
 
     @NoArgsConstructor
+    @Getter
+    public static class Post
+    {
+        @Setter
+        private Conversation conversation;
+        private String question;
+    }
+
+    @NoArgsConstructor
     @AllArgsConstructor
     @Getter
     @Setter

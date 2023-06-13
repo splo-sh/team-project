@@ -4,8 +4,7 @@ import com.codestates.seb43_main_012.bookmark.*;
 import com.codestates.seb43_main_012.category.*;
 import com.codestates.seb43_main_012.exception.BusinessLogicException;
 import com.codestates.seb43_main_012.exception.ExceptionCode;
-import com.codestates.seb43_main_012.member.repository.MemberRepository;
-import com.codestates.seb43_main_012.qna.QnADto;
+import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnAService;
 import com.codestates.seb43_main_012.tag.dto.TagDto;
 import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
@@ -29,7 +28,6 @@ import java.util.*;
 public class ConversationService {
 
     private final ConversationRepository conversationRepository;
-    private final MemberRepository memberRepository;
     private final BookmarkRepository bookmarkRepository;
     private final CategoryService categoryService;
     private final ConversationCategoryRepository conversationCategoryRepository;
@@ -39,18 +37,45 @@ public class ConversationService {
     private final ConversationMapper conversationMapper;
     private final CategoryRepository categoryRepository;
 
-    @Transactional
-    public Conversation createConversation(long memberId, QnADto.Post dto)
+
+    public Conversation createConversation(long memberId, ConversationDto.Post dto)
     {
         Conversation conversation = new Conversation();
-        conversation.addMember(memberRepository.findById(memberId).orElse(null));
+        conversation.addMember(new MemberEntity(memberId));
         Conversation savedConversation = conversationRepository.save(conversation);
 
-        long conversationId = savedConversation.getId();
-        dto.setConversationId(conversationId);
-        qnaService.requestAnswer(dto);
+        dto.setConversation(savedConversation);
+        qnaService.requestAnswer(savedConversation, dto.getQuestion());
 
         return conversationRepository.save(conversation);
+    }
+
+    public ConversationDto.Response getConversationAndCategoryList2(Conversation conversation, long memberId)
+    {
+        List<Category> categories = categoryRepository.findAllByMemberId(memberId, Sort.by(Sort.Direction.DESC, "id"));
+    }
+
+    public ConversationDto.Response getConversationAndCategoryList(Conversation conversation, long memberId)
+    {
+        List<Long> conversationCategoryIDs = new ArrayList<>();
+        conversation.getCategories().stream().forEach(category -> conversationCategoryIDs.add(category.getCategory().getId()));
+        if(conversationCategoryIDs.isEmpty()) conversationCategoryIDs.add(0L);
+
+        List<Category> categories = categoryRepository.findAllByMemberIdAndIdNotIn(memberId, conversationCategoryIDs);
+
+        ConversationDto.Response response = conversationMapper.responseForGetOneConversation(conversation, categories);
+
+        return response;
+    }
+
+    @Transactional
+    public ConversationDto.Response viewConversationAndCategoryList(long conversationId, long memberId)
+    {
+        Conversation conversation = viewCountUp(conversationId);
+
+        ConversationDto.Response response = getConversationAndCategoryList(conversation, memberId);
+
+        return response;
     }
 
     public Conversation updateConversation(long conversationId, ConversationDto.Patch dto)
@@ -110,29 +135,7 @@ public class ConversationService {
         return conversationRepository.findAllByDeleteStatusAndIdIn(false, IDs, pageRequest);
     }
 
-    @Transactional
-    public ConversationDto.Response viewConversationAndCategoryList(long conversationId, long memberId)
-    {
-        Conversation conversation = viewCountUp(conversationId);
 
-        ConversationDto.Response response = getConversationAndCategoryList(conversation, memberId);
-
-        return response;
-    }
-
-    public ConversationDto.Response getConversationAndCategoryList(Conversation conversation, long memberId)
-    {
-        List<Long> conversationCategoryIDs = new ArrayList<>();
-        conversation.getBookmarks().stream().forEach(category -> conversationCategoryIDs.add(category.getCategory().getId()));
-
-        if(conversationCategoryIDs.isEmpty()) conversationCategoryIDs.add(0L);
-
-        List<Category> categories = categoryRepository.findAllByMemberIdAndIdNotIn(memberId, conversationCategoryIDs);
-
-        ConversationDto.Response response = conversationMapper.responseForGetOneConversation(conversation, categories);
-
-        return response;
-    }
 
     @Transactional
     public List<Conversation> findBookmarkedConversations(String categoryName, long memberId)

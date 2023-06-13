@@ -38,7 +38,7 @@ public class ConversationMapper {
                 new MemberDto.ResponseForConversation(conversation.getMember().getId(),conversation.getMember().getUsername()),
                 conversation.getTitle(),
                 qnaResponseList,
-                conversationCategoriesToCategoryResponseDtos(conversation.getBookmarks()),
+                conversationCategoriesToCategoryResponseDtos(conversation.getCategories()),
                 categoriesToCategoryResponseDtos(categories),
                 tags,
                 conversation.getSaved(),
@@ -56,7 +56,7 @@ public class ConversationMapper {
     {
         return new CollectionDto.Response(
                 conversation.getId(),
-                conversationCategoriesToCategoryResponseDtos(conversation.getBookmarks()),
+                conversationCategoriesToCategoryResponseDtos(conversation.getCategories()),
                 conversation.getTags(),
                 conversation.getPinned(),
                 conversation.getTitle()
@@ -111,7 +111,7 @@ public class ConversationMapper {
                         conv.getTitle(),
                         conv.getAnswerSummary(),
                         conv.getModifiedAt(),
-                        conversationCategoriesToCategoryResponseDtos(conv.getBookmarks()),
+                        conversationCategoriesToCategoryResponseDtos(conv.getCategories()),
                         tags,
                         conv.getSaved(),
                         conv.getPinned(),

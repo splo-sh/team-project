@@ -9,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -26,12 +24,9 @@ public class ConversationController {
 
 
     @PostMapping
-    public ResponseEntity generateConversation(@RequestBody QnADto.Post dto,
+    public ResponseEntity generateConversation(@RequestBody ConversationDto.Post dto,
                                                @AuthenticationPrincipal MemberEntity member)
     {
-        SecurityContext context = SecurityContextHolder.getContext();
-        System.out.println(((MemberEntity)context.getAuthentication().getPrincipal()).getId());
-
         Long memberId = member.getId();
 
         Conversation savedConversation = conversationService.createConversation(memberId, dto);

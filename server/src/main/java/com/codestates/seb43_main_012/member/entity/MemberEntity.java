@@ -71,4 +71,8 @@ public class MemberEntity implements UserDetails {
         return true;
     }
 
+    public MemberEntity(long id)
+    {
+        this.id = id;
+    }
 }

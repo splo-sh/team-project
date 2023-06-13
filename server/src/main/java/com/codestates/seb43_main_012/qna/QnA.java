@@ -25,6 +25,7 @@ public class QnA {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
+    //@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "CONVERSATION_ID")
     private Conversation conversation;
 

@@ -71,33 +71,34 @@ public class QnAService {
         return IDs;
     }
 
+    public QnA requestAnswerPreprocessing(QnADto.Post dto)
+    {
+        Conversation conversation = conversationRepository.findById(dto.getConversationId()).get();
+        return requestAnswer(conversation, dto.getQuestion());
+    }
+
     @Transactional
-    public QnA requestAnswer(QnADto.Post dto)
+    public QnA requestAnswer(Conversation conversation, String question)
     {
         // set header
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Authorization", "Bearer " + API_KEY);
 
-        // mapping
-        long conversationId = dto.getConversationId();
-        String question = dto.getQuestion();
-        int max_tokens = MAX_TOKENS;
-
         // 질문
-        List<Map<String, String>> messages = buildMessage(conversationId);
+        List<Map<String, String>> messages = buildMessage(conversation.getId());
         Map<String, Object> requestBody = new HashMap<>();
         Map<String, String> message = new HashMap<>();
         message.put("role", "user");
         message.put("content", question);
         messages.add(message);
 
-        // api 호출
+        // request 빌드
         requestBody.put("model", "gpt-3.5-turbo");
         requestBody.put("messages", messages);
-        requestBody.put("max_tokens", max_tokens);
+        requestBody.put("max_tokens", MAX_TOKENS);
 
-        // 답변 생성
+        // api 호출, 답변 생성
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
         //RestTemplate restTemplate = new RestTemplate();
         RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
@@ -105,38 +106,25 @@ public class QnAService {
         //ResponseEntity<Map> response = restTemplate.postForEntity(API_ENDPOINT, requestEntity, Map.class);
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(API_ENDPOINT, HttpMethod.POST, requestEntity, new ParameterizedTypeReference<>() {});
 
-        // 이전 대화 저장
+        // 질문-답변 인스턴스 생성
         List<Object> a = (List<Object>) response.getBody().get("choices");
         Map<String, Object> b = (Map<String, Object>) a.get(0);
         Map<String, Object> c = (Map<String, Object>) b.get("message");
         String answer = (String) c.get("content");
         QnA qna = new QnA(question,answer);
 
-        Conversation conversation = conversationRepository.findById(conversationId).orElseThrow();
+
         if(conversation.getTitle() == null)
         {
             conversation.setTitle(question);
             conversation.setAnswerSummary(answer);
         }
-        qna.setConversation(conversation);
 
         conversation.setActivityLevel(conversation.getActivityLevel()+1);
         conversation.setModifiedAt(String.valueOf(LocalDateTime.now()));
-        //conversationRepository.save(conversation);
-
-        //QnA savedQnA = saveQnA(qna);
         conversation.addQnA(qna);
 
-        Map<String, String> message2 = new HashMap<>();
-        message2.put("role", "assistant");
-        message2.put("content", answer);
-        messages.add(message2);
-
-        System.out.println();
-        System.out.println(conversationId+" 번 대화방 ----");
-        System.out.println(messages);
-        System.out.println();
-
+        System.out.println("requestAnswer 메서드 종료");
         return qna;
     }
 }

@@ -34,15 +34,15 @@ public class Conversation {
     private String answerSummary;
     private String createdAt = String.valueOf(LocalDateTime.now());
     private String modifiedAt = String.valueOf(LocalDateTime.now());
-    @OneToMany(mappedBy = "conversation", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "conversation", cascade = {CascadeType.MERGE})
     private List<QnA> qnaList = new ArrayList<>();
     private Boolean saved = false;
     private Boolean pinned = false;
     private Boolean published = false;
 
-    @OneToMany(mappedBy = "conversation", cascade = CascadeType.REMOVE)
-    private List<ConversationCategory> bookmarks = new ArrayList<>();
-    @OneToMany(mappedBy = "conversation", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.PERSIST)
+    private List<ConversationCategory> categories = new ArrayList<>();
+    @OneToMany(mappedBy = "conversation", cascade = CascadeType.PERSIST)
     private List<ConversationTag> tags = new ArrayList<>();
     private int viewCount;
     private int activityLevel;
@@ -64,6 +64,7 @@ public class Conversation {
     public void addQnA(QnA qna)
     {
         this.qnaList.add(qna);
+        qna.setConversation(this);
     }
     public void addTag(ConversationTag tag)
     {
