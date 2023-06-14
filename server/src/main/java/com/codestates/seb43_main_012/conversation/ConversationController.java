@@ -29,9 +29,7 @@ public class ConversationController {
     {
         Long memberId = member.getId();
 
-        Conversation savedConversation = conversationService.createConversation(memberId, dto);
-
-        ConversationDto.Response response = conversationService.getConversationAndCategoryList(savedConversation, memberId);
+        ConversationDto.Response response = conversationService.createConversation(memberId, dto);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -42,7 +40,7 @@ public class ConversationController {
     {
         Conversation conversation = conversationService.updateConversation(conversationId, dto);
 
-        return new ResponseEntity<>(conversation, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.conversationToPatchResponseDto(conversation), HttpStatus.OK);
     }
 
     @GetMapping("/{conversation-id}")

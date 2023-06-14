@@ -1,18 +1,15 @@
 package com.codestates.seb43_main_012.conversation;
 
-import com.codestates.seb43_main_012.category.Category;
-import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryDto;
 import com.codestates.seb43_main_012.member.dto.MemberDto;
-import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnADto;
+import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
 import com.codestates.seb43_main_012.tag.entitiy.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -20,9 +17,9 @@ public class ConversationDto {
 
     @NoArgsConstructor
     @Getter
+    @Setter
     public static class Post
     {
-        @Setter
         private Conversation conversation;
         private String question;
     }
@@ -37,6 +34,17 @@ public class ConversationDto {
         private Boolean pinned;
     }
 
+
+    @AllArgsConstructor
+    @Getter
+    public static class ResponseForPatch
+    {
+        private long conversationId;
+        private String title;
+        private String modifiedAt;
+        private boolean pinned;
+    }
+
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
@@ -47,9 +55,9 @@ public class ConversationDto {
         private MemberDto.ResponseForConversation member;
         private String title;
         private List<QnADto.Response> qnaList;
-        private List<ConversationCategoryDto> bookmarks;
-        private List<ConversationCategoryDto> bookmarkList;
-        private List<Tag> tags;
+        private List<ConversationCategoryDto> categoriesThisConversation;
+        private List<ConversationCategoryDto> otherCategories;
+        private List<ConversationTag> tags;
         private Boolean saved;
         private Boolean pinned;
         private Boolean published;

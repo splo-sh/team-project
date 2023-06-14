@@ -37,8 +37,8 @@ public class ConversationService {
     private final ConversationMapper conversationMapper;
     private final CategoryRepository categoryRepository;
 
-
-    public Conversation createConversation(long memberId, ConversationDto.Post dto)
+    @Transactional
+    public ConversationDto.Response createConversation(long memberId, ConversationDto.Post dto)
     {
         Conversation conversation = new Conversation();
         conversation.addMember(new MemberEntity(memberId));
@@ -47,12 +47,15 @@ public class ConversationService {
         dto.setConversation(savedConversation);
         qnaService.requestAnswer(savedConversation, dto.getQuestion());
 
-        return conversationRepository.save(conversation);
+        return responseForPost(conversationRepository.save(conversation), memberId);
     }
 
-    public ConversationDto.Response getConversationAndCategoryList2(Conversation conversation, long memberId)
+    public ConversationDto.Response responseForPost(Conversation conversation, long memberId)
     {
         List<Category> categories = categoryRepository.findAllByMemberId(memberId, Sort.by(Sort.Direction.DESC, "id"));
+
+        ConversationDto.Response response = conversationMapper.responseForGetOneConversation(conversation, categories);
+        return response;
     }
 
     public ConversationDto.Response getConversationAndCategoryList(Conversation conversation, long memberId)

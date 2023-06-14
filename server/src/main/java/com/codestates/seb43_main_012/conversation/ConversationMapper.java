@@ -40,7 +40,7 @@ public class ConversationMapper {
                 qnaResponseList,
                 conversationCategoriesToCategoryResponseDtos(conversation.getCategories()),
                 categoriesToCategoryResponseDtos(categories),
-                tags,
+                conversation.getTags(),
                 conversation.getSaved(),
                 conversation.getPinned(),
                 conversation.getPublished(),
@@ -52,52 +52,18 @@ public class ConversationMapper {
         return response;
     }
 
-    public CollectionDto.Response conversationToCollectionResponseDto(Conversation conversation)
+
+    public ConversationDto.ResponseForPatch conversationToPatchResponseDto(Conversation conversation)
     {
-        return new CollectionDto.Response(
+        return new ConversationDto.ResponseForPatch(
                 conversation.getId(),
-                conversationCategoriesToCategoryResponseDtos(conversation.getCategories()),
-                conversation.getTags(),
-                conversation.getPinned(),
-                conversation.getTitle()
+                conversation.getTitle(),
+                conversation.getModifiedAt(),
+                conversation.getPinned()
         );
     }
 
-    private List<ConversationCategoryDto> conversationCategoriesToCategoryResponseDtos(List<ConversationCategory> conversationCategories)
-    {
-        List<ConversationCategoryDto> responses = new ArrayList<>();
-        conversationCategories.stream().forEach(category -> responses.add(conversationCategoryToCategoryResponseDto(category)));
 
-        return responses;
-    }
-
-    private ConversationCategoryDto conversationCategoryToCategoryResponseDto(ConversationCategory conversationCategory)
-    {
-        ConversationCategoryDto response = new ConversationCategoryDto(
-                conversationCategory.getCategory().getId(),
-                conversationCategory.getCategory().getName()
-        );
-
-        return response;
-    }
-
-    private List<ConversationCategoryDto> categoriesToCategoryResponseDtos(List<Category> categories)
-    {
-        List<ConversationCategoryDto> responses = new ArrayList<>();
-        categories.stream().forEach(category -> responses.add(categoryToCategoryResponseDto(category)));
-
-        return responses;
-    }
-
-    private ConversationCategoryDto categoryToCategoryResponseDto(Category category)
-    {
-        ConversationCategoryDto response = new ConversationCategoryDto(
-                category.getId(),
-                category.getName()
-        );
-
-        return response;
-    }
 
     public ConversationDto.ResponseForAll conversationToConversationResponseDto(Conversation conv)
     {
@@ -159,6 +125,43 @@ public class ConversationMapper {
 
         response.put("tagId", tagId);
         response.put("tagName", tagName);
+
+        return response;
+    }
+
+
+    private List<ConversationCategoryDto> conversationCategoriesToCategoryResponseDtos(List<ConversationCategory> conversationCategories)
+    {
+        List<ConversationCategoryDto> responses = new ArrayList<>();
+        conversationCategories.stream().forEach(category -> responses.add(conversationCategoryToCategoryResponseDto(category)));
+
+        return responses;
+    }
+
+    private ConversationCategoryDto conversationCategoryToCategoryResponseDto(ConversationCategory conversationCategory)
+    {
+        ConversationCategoryDto response = new ConversationCategoryDto(
+                conversationCategory.getCategory().getId(),
+                conversationCategory.getCategory().getName()
+        );
+
+        return response;
+    }
+
+    private List<ConversationCategoryDto> categoriesToCategoryResponseDtos(List<Category> categories)
+    {
+        List<ConversationCategoryDto> responses = new ArrayList<>();
+        categories.stream().forEach(category -> responses.add(categoryToCategoryResponseDto(category)));
+
+        return responses;
+    }
+
+    private ConversationCategoryDto categoryToCategoryResponseDto(Category category)
+    {
+        ConversationCategoryDto response = new ConversationCategoryDto(
+                category.getId(),
+                category.getName()
+        );
 
         return response;
     }

@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class ConversationCategoryDto {
-    private long bookmarkId;
-    private String bookmarkName;
+    private long categoryId;
+    private String categoryName;
 }

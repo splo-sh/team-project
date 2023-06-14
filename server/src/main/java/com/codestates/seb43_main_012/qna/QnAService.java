@@ -71,13 +71,13 @@ public class QnAService {
         return IDs;
     }
 
+    @Transactional
     public QnA requestAnswerPreprocessing(QnADto.Post dto)
     {
         Conversation conversation = conversationRepository.findById(dto.getConversationId()).get();
         return requestAnswer(conversation, dto.getQuestion());
     }
 
-    @Transactional
     public QnA requestAnswer(Conversation conversation, String question)
     {
         // set header
