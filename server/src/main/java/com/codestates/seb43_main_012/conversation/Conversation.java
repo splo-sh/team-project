@@ -3,7 +3,7 @@ package com.codestates.seb43_main_012.conversation;
 import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnA;
-import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
+import com.codestates.seb43_main_012.tag.ConversationTag;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

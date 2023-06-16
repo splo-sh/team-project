@@ -1,6 +1,6 @@
-package com.codestates.seb43_main_012.tag.repository;
+package com.codestates.seb43_main_012.tag;
 
-import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
+import com.codestates.seb43_main_012.tag.ConversationTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

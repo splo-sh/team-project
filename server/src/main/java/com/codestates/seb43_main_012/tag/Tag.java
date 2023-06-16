@@ -1,4 +1,4 @@
-package com.codestates.seb43_main_012.tag.entitiy;
+package com.codestates.seb43_main_012.tag;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

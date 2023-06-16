@@ -6,11 +6,11 @@ import com.codestates.seb43_main_012.exception.BusinessLogicException;
 import com.codestates.seb43_main_012.exception.ExceptionCode;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnAService;
-import com.codestates.seb43_main_012.tag.dto.TagDto;
-import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
-import com.codestates.seb43_main_012.tag.entitiy.Tag;
-import com.codestates.seb43_main_012.tag.repository.ConversationTagRepository;
-import com.codestates.seb43_main_012.tag.repository.TagRepository;
+import com.codestates.seb43_main_012.tag.TagDto;
+import com.codestates.seb43_main_012.tag.ConversationTag;
+import com.codestates.seb43_main_012.tag.Tag;
+import com.codestates.seb43_main_012.tag.ConversationTagRepository;
+import com.codestates.seb43_main_012.tag.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -50,7 +50,7 @@ public class ConversationService {
         return responseForPost(conversationRepository.save(conversation), memberId);
     }
 
-    public ConversationDto.Response responseForPost(Conversation conversation, long memberId)
+    private ConversationDto.Response responseForPost(Conversation conversation, long memberId)
     {
         List<Category> categories = categoryRepository.findAllByMemberId(memberId, Sort.by(Sort.Direction.DESC, "id"));
 
@@ -58,9 +58,10 @@ public class ConversationService {
         return response;
     }
 
-    public ConversationDto.Response getConversationAndCategoryList(Conversation conversation, long memberId)
+    public ConversationDto.Response findCategoryList(Conversation conversation, long memberId)
     {
         List<Long> conversationCategoryIDs = new ArrayList<>();
+
         conversation.getCategories().stream().forEach(category -> conversationCategoryIDs.add(category.getCategory().getId()));
         if(conversationCategoryIDs.isEmpty()) conversationCategoryIDs.add(0L);
 
@@ -72,11 +73,13 @@ public class ConversationService {
     }
 
     @Transactional
-    public ConversationDto.Response viewConversationAndCategoryList(long conversationId, long memberId)
+    public ConversationDto.Response getConversationAndCategoryList(long conversationId, long memberId)
     {
-        Conversation conversation = viewCountUp(conversationId);
+        Conversation conversation = conversationRepository.findById(conversationId).get();
 
-        ConversationDto.Response response = getConversationAndCategoryList(conversation, memberId);
+        viewCountUp(conversation);
+
+        ConversationDto.Response response = findCategoryList(conversation, memberId);
 
         return response;
     }
@@ -278,12 +281,11 @@ public class ConversationService {
         return conversationRepository.save(findConversation);
     }
 
-    public Conversation viewCountUp(long conversationId)
+    public void viewCountUp(Conversation conversation)
     {
-        Conversation conversation = findConversation(conversationId);
         conversation.setViewCount(conversation.getViewCount()+1);
         conversation.setActivityLevel(conversation.getActivityLevel()+1);
-        return conversationRepository.save(conversation);
+        conversationRepository.save(conversation);
     }
 
     public List<Conversation> getSavedConversation(long memberId, boolean isSaved)
@@ -300,22 +302,18 @@ public class ConversationService {
 
     public void removeAll(String value, long memberId)
     {
-        if(value.equals("true"))
-        {
-            List<Conversation> conversations = conversationRepository.findAllByMemberIdAndDeleteStatus(memberId, false);
-            conversations.stream().forEach(conv -> {
-                conv.setDeleteStatus(true);
-            });
-            conversationRepository.saveAll(conversations);
+        List<Conversation> conversations;
+        if(value.equals("true")) {
+            conversations = conversationRepository.findAllByMemberIdAndDeleteStatus(memberId, false);
         }
-        else
-        {
-            List<Conversation> conversations = conversationRepository.findAllByMemberIdAndSavedAndDeleteStatus(memberId, false,false);
-            conversations.stream().forEach(conv -> {
-                conv.setDeleteStatus(true);
-            });
-            conversationRepository.saveAll(conversations);
+        else {
+            conversations = conversationRepository.findAllByMemberIdAndSavedAndDeleteStatus(memberId, false,false);
         }
+
+        conversations.stream().forEach(conv -> {
+            conv.setDeleteStatus(true);
+        });
+        conversationRepository.saveAll(conversations);
     }
 
     public void setSaveStatus(Conversation conversation)

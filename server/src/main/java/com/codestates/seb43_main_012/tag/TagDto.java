@@ -1,6 +1,7 @@
-package com.codestates.seb43_main_012.tag.dto;
+package com.codestates.seb43_main_012.tag;
 
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,4 +30,14 @@ public class TagDto {
         private String tagName;
     }
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Response {
+
+        private Long tagId;
+        private String tagName;
+
+    }
 }

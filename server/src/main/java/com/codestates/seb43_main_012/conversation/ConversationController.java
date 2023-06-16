@@ -2,9 +2,8 @@ package com.codestates.seb43_main_012.conversation;
 
 import com.codestates.seb43_main_012.bookmark.BookmarkDto;
 import com.codestates.seb43_main_012.member.entity.MemberEntity;
-import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.response.MultiResponseDto;
-import com.codestates.seb43_main_012.tag.dto.TagDto;
+import com.codestates.seb43_main_012.tag.TagDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
@@ -49,7 +48,7 @@ public class ConversationController {
     {
         Long memberId = member.getId();
 
-        ConversationDto.Response response = conversationService.viewConversationAndCategoryList(conversationId, memberId);
+        ConversationDto.Response response = conversationService.getConversationAndCategoryList(conversationId, memberId);
 
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
@@ -126,8 +125,8 @@ public class ConversationController {
         return new ResponseEntity<>(mapper.simpleMessageResponse("태그 삭제 성공"),HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/bookmarks/{bookmark-name}")
-    public ResponseEntity getBookmarkedConversation(@PathVariable("bookmark-name") String categoryName,
+    @GetMapping("/categories/{category-name}")
+    public ResponseEntity getBookmarkedConversation(@PathVariable("category-name") String categoryName,
                                                     @AuthenticationPrincipal MemberEntity member)
     {
         Long memberId = member.getId();

@@ -3,12 +3,11 @@ package com.codestates.seb43_main_012.conversation;
 import com.codestates.seb43_main_012.category.Category;
 import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryDto;
-import com.codestates.seb43_main_012.collection.CollectionDto;
 import com.codestates.seb43_main_012.member.dto.MemberDto;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAMapper;
-import com.codestates.seb43_main_012.tag.entitiy.Tag;
-import com.codestates.seb43_main_012.tag.repository.TagRepository;
+import com.codestates.seb43_main_012.tag.Tag;
+import com.codestates.seb43_main_012.tag.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -23,10 +22,6 @@ public class ConversationMapper {
 
     public ConversationDto.Response responseForGetOneConversation(Conversation conversation, List<Category> categories)
     {
-
-
-        List<Tag> tags = new ArrayList<>();
-        conversation.getTags().stream().forEach(conversationTag-> tags.add(tagRepository.findById(conversationTag.getTagId()).orElse(null)));
 
         List<QnADto.Response> qnaResponseList = new ArrayList<>();
         conversation.getQnaList().stream().forEach(qna ->

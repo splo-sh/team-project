@@ -1,4 +1,4 @@
-package com.codestates.seb43_main_012.tag.entitiy;
+package com.codestates.seb43_main_012.tag;
 
 import com.codestates.seb43_main_012.conversation.Conversation;
 import com.fasterxml.jackson.annotation.JsonIgnore;

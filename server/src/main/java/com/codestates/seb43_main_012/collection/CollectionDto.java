@@ -1,8 +1,7 @@
 package com.codestates.seb43_main_012.collection;
 
-import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryDto;
-import com.codestates.seb43_main_012.tag.entitiy.ConversationTag;
+import com.codestates.seb43_main_012.tag.ConversationTag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
