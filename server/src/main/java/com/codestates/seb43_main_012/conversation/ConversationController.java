@@ -60,6 +60,7 @@ public class ConversationController {
                                            @AuthenticationPrincipal MemberEntity member) {
         Long memberId = member.getId();
 
+
         if (sort == null) sort = "desc";
         int size = 10;
 
