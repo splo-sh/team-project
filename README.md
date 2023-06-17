@@ -1,5 +1,5 @@
 </br>
- <h3 align="center">Team Bug Fetish Presents.. <br><br>
+ <h3 align="center">Team <br><br>
 <img alt="chatcrawl" src="./files/logo.png" width="400" > </h3>
 <p align="center">ChatGPT 대화 검색, 북마킹 및 태깅 서비스</p>
 <p align="center">장성아(팀장), 맹승주, 박지원, 순정원, 김민수, 한재영</p>
