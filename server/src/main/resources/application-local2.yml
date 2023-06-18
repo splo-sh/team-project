@@ -1,23 +1,25 @@
 server:
   port: 8080
 
+apikey: ${API_KEY}
+
 jwt:
-  secret: q2KLu/ULqHXrNXm2gjwA/vfp+H7KWfe7p2sxCKd0eFhmEXmgPeWyqHcVylLg4N2cH0GNxjtuDfap3PZNJbg1+g==
-  expiration: 300
+  secret: ${JWT_KEY}
+  expiration: 10000000
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dbforuser1?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/main?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
-    password: dlrla0413
+    password: ${PASSWORD}
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
 
 
 logging:

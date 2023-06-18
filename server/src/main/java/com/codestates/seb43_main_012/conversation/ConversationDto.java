@@ -3,8 +3,8 @@ package com.codestates.seb43_main_012.conversation;
 import com.codestates.seb43_main_012.category.ConversationCategoryDto;
 import com.codestates.seb43_main_012.member.dto.MemberDto;
 import com.codestates.seb43_main_012.qna.QnADto;
-import com.codestates.seb43_main_012.tag.ConversationTag;
-import com.codestates.seb43_main_012.tag.Tag;
+import com.codestates.seb43_main_012.tag.ConversationTagDto;
+import com.codestates.seb43_main_012.tag.TagDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,7 +57,7 @@ public class ConversationDto {
         private List<QnADto.Response> qnaList;
         private List<ConversationCategoryDto> categoriesThisConversation;
         private List<ConversationCategoryDto> otherCategories;
-        private List<ConversationTag> tags;
+        private List<ConversationTagDto> tags;
         private Boolean saved;
         private Boolean pinned;
         private Boolean published;
@@ -77,7 +77,7 @@ public class ConversationDto {
         private String answerSummary;
         private String modifiedAt;
         private List<ConversationCategoryDto> bookmarks;
-        private List<Tag> tags;
+        private List<TagDto.Response> tags;
         private Boolean saved;
         private Boolean pinned;
         private Boolean published;

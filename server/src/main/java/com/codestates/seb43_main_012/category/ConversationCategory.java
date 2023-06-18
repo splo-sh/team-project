@@ -1,7 +1,6 @@
 package com.codestates.seb43_main_012.category;
 
 import com.codestates.seb43_main_012.conversation.Conversation;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,11 +11,9 @@ import javax.persistence.*;
 @Entity
 public class ConversationCategory {
     @Id
-    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CONVERSATION_ID")
     private Conversation conversation;
@@ -25,19 +22,10 @@ public class ConversationCategory {
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
-//    @Setter
-//    private String categoryName;
 
-//    public ConversationCategory(Conversation conversation, long bookmarkId, String bookmarkName)
-//    {
-//        this.conversation = conversation;
-//        this.bookmarkId = bookmarkId;
-//        this.bookmarkName = bookmarkName;
-//    }
     public ConversationCategory(Conversation conversation, Category category)
     {
         this.conversation = conversation;
         this.category = category;
-        //this.categoryName = category.getName();
     }
 }

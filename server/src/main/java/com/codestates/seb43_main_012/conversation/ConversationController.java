@@ -67,8 +67,7 @@ public class ConversationController {
         List<Conversation> conversations;
         if (page == null)
         {
-            conversations = conversationService.findConversationList(sort, query, memberId);
-            List<ConversationDto.ResponseForAll> responses = mapper.conversationsToConversationResponseDtos(conversations);
+            List<ConversationDto.ResponseForAll> responses = conversationService.findConversationList(sort, query, memberId);
             return new ResponseEntity<>(responses, HttpStatus.OK);
         }
         else

@@ -27,9 +27,9 @@ public class CollectionMapper {
         List<TagDto.Response> tagResponses = new ArrayList<>();
         List<Long> IDs = new ArrayList<>();
         tags.stream().forEach(tag -> {
-            if(!IDs.contains(tag.getTagId())) {
-                tagResponses.add(tagToTagResponseDto(tag));
-                IDs.add(tag.getTagId());
+            if(!IDs.contains(tag.getTag().getId())) {
+                tagResponses.add(conversationTagToTagResponseDto(tag));
+                IDs.add(tag.getTag().getId());
             }
         });
 
@@ -50,11 +50,11 @@ public class CollectionMapper {
         return response;
     }
 
-    private TagDto.Response tagToTagResponseDto(ConversationTag tag)
+    private TagDto.Response conversationTagToTagResponseDto(ConversationTag conversationTag)
     {
         var response = new TagDto.Response(
-                tag.getTagId(),
-                tag.getTagName()
+                conversationTag.getTag().getId(),
+                conversationTag.getTag().getName()
         );
         return response;
     }

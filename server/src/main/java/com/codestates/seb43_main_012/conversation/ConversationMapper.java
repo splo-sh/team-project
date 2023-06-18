@@ -4,10 +4,10 @@ import com.codestates.seb43_main_012.category.Category;
 import com.codestates.seb43_main_012.category.ConversationCategory;
 import com.codestates.seb43_main_012.category.ConversationCategoryDto;
 import com.codestates.seb43_main_012.member.dto.MemberDto;
+import com.codestates.seb43_main_012.member.entity.MemberEntity;
 import com.codestates.seb43_main_012.qna.QnADto;
 import com.codestates.seb43_main_012.qna.QnAMapper;
-import com.codestates.seb43_main_012.tag.Tag;
-import com.codestates.seb43_main_012.tag.TagRepository;
+import com.codestates.seb43_main_012.tag.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,35 +18,41 @@ import java.util.*;
 public class ConversationMapper {
 
     private final QnAMapper qnaMapper;
-    private final TagRepository tagRepository;
 
     public ConversationDto.Response responseForGetOneConversation(Conversation conversation, List<Category> categories)
     {
-
         List<QnADto.Response> qnaResponseList = new ArrayList<>();
-        conversation.getQnaList().stream().forEach(qna ->
+        conversation.getQnaList().forEach(qna ->
                     qnaResponseList.add(qnaMapper.qnaToQnAResponseDto(qna))
         );
 
-        ConversationDto.Response response = new ConversationDto.Response(
+        return new ConversationDto.Response(
                 conversation.getId(),
                 new MemberDto.ResponseForConversation(conversation.getMember().getId(),conversation.getMember().getUsername()),
                 conversation.getTitle(),
                 qnaResponseList,
                 conversationCategoriesToCategoryResponseDtos(conversation.getCategories()),
                 categoriesToCategoryResponseDtos(categories),
-                conversation.getTags(),
+                conversationTagsToConversationTagDtos(conversation.getTags()),
                 conversation.getSaved(),
                 conversation.getPinned(),
                 conversation.getPublished(),
                 conversation.getViewCount(),
                 conversation.getActivityLevel()
         );
-
-
-        return response;
     }
 
+    private List<ConversationTagDto> conversationTagsToConversationTagDtos(List<ConversationTag> conversationTags)
+    {
+        List<ConversationTagDto> conversationTagDtos = new ArrayList<>();
+        conversationTags.forEach(conversationTag ->
+                conversationTagDtos.add(new ConversationTagDto(
+                        conversationTag.getTag().getId(),
+                        conversationTag.getTag().getName())
+                )
+        );
+        return conversationTagDtos;
+    }
 
     public ConversationDto.ResponseForPatch conversationToPatchResponseDto(Conversation conversation)
     {
@@ -60,34 +66,52 @@ public class ConversationMapper {
 
 
 
-    public ConversationDto.ResponseForAll conversationToConversationResponseDto(Conversation conv)
+    private ConversationDto.ResponseForAll conversationToConversationResponseDto(Conversation conv)
     {
-        List<Tag> tags = new ArrayList<>();
-        conv.getTags().stream().forEach(conversationTag -> tags.add(tagRepository.findById(conversationTag.getTagId()).orElse(null)));
+        MemberEntity member = conv.getMember();
 
-        ConversationDto.ResponseForAll response =
-                new ConversationDto.ResponseForAll(
+        return new ConversationDto.ResponseForAll(
                         conv.getId(),
-                        new MemberDto.ResponseForConversation(conv.getMember().getId(),conv.getMember().getUsername()),
+                        memberToMemberResponseDto(member),
                         conv.getTitle(),
                         conv.getAnswerSummary(),
                         conv.getModifiedAt(),
                         conversationCategoriesToCategoryResponseDtos(conv.getCategories()),
-                        tags,
+                        conversationTagsToTagResponseDtos(conv.getTags()),
                         conv.getSaved(),
                         conv.getPinned(),
                         conv.getPublished(),
                         conv.getViewCount(),
                         conv.getActivityLevel()
                 );
-        return response;
+    }
+
+    private MemberDto.ResponseForConversation memberToMemberResponseDto(MemberEntity member)
+    {
+        return new MemberDto.ResponseForConversation(member.getId(), member.getUsername());
+    }
+
+    private List<TagDto.Response> conversationTagsToTagResponseDtos(List<ConversationTag> conversationTags)
+    {
+        List<TagDto.Response> responses = new ArrayList<>();
+
+        conversationTags.forEach(convTag ->
+                responses.add(conversationTagToTagResponseDto(convTag))
+        );
+        return responses;
+    }
+
+    private TagDto.Response conversationTagToTagResponseDto(ConversationTag conversationTag)
+    {
+        Tag tag = conversationTag.getTag();
+        return new TagDto.Response(tag.getId(), tag.getName());
     }
 
     public List<ConversationDto.ResponseForAll> conversationsToConversationResponseDtos(List<Conversation> conversations)
     {
         List<ConversationDto.ResponseForAll> responses = new ArrayList<>();
 
-        conversations.stream()
+        conversations
                 .forEach(conv ->
                     {
                         ConversationDto.ResponseForAll response = conversationToConversationResponseDto(conv);
@@ -128,25 +152,23 @@ public class ConversationMapper {
     private List<ConversationCategoryDto> conversationCategoriesToCategoryResponseDtos(List<ConversationCategory> conversationCategories)
     {
         List<ConversationCategoryDto> responses = new ArrayList<>();
-        conversationCategories.stream().forEach(category -> responses.add(conversationCategoryToCategoryResponseDto(category)));
+        conversationCategories.forEach(category -> responses.add(conversationCategoryToCategoryResponseDto(category)));
 
         return responses;
     }
 
     private ConversationCategoryDto conversationCategoryToCategoryResponseDto(ConversationCategory conversationCategory)
     {
-        ConversationCategoryDto response = new ConversationCategoryDto(
+        return new ConversationCategoryDto(
                 conversationCategory.getCategory().getId(),
                 conversationCategory.getCategory().getName()
         );
-
-        return response;
     }
 
     private List<ConversationCategoryDto> categoriesToCategoryResponseDtos(List<Category> categories)
     {
         List<ConversationCategoryDto> responses = new ArrayList<>();
-        categories.stream().forEach(category -> responses.add(categoryToCategoryResponseDto(category)));
+        categories.forEach(category -> responses.add(categoryToCategoryResponseDto(category)));
 
         return responses;
     }

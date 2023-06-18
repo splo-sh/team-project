@@ -24,7 +24,6 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ConversationService {
 
     private final ConversationRepository conversationRepository;
@@ -36,6 +35,7 @@ public class ConversationService {
     private final QnAService qnaService;
     private final ConversationMapper conversationMapper;
     private final CategoryRepository categoryRepository;
+
 
     @Transactional
     public ConversationDto.Response createConversation(long memberId, ConversationDto.Post dto)
@@ -112,7 +112,8 @@ public class ConversationService {
         return conversation;
     }
 
-    public List<Conversation> findConversationList(String sort, String query, long memberId)
+    @Transactional
+    public List<ConversationDto.ResponseForAll> findConversationList(String sort, String query, long memberId)
     {
         if (query == null) query = "";
         List<Long> IDs = qnaService.findConversationIDs(query, memberId);
@@ -124,7 +125,9 @@ public class ConversationService {
         else
             sortBy = Sort.by(Sort.Direction.DESC, "modifiedAt");
 
-        return conversationRepository.findAllByDeleteStatusAndIdIn(false, IDs, sortBy);
+        List<Conversation> conversations = conversationRepository.findAllByDeleteStatusAndIdIn(false, IDs, sortBy);
+
+        return conversationMapper.conversationsToConversationResponseDtos(conversations);
     }
 
     public Page<Conversation> findConversations(String sort, String query, long memberId, int page, int size) {
@@ -255,8 +258,7 @@ public class ConversationService {
         {
             ConversationTag conversationTag = new ConversationTag(
                     findConversation,
-                    tag.getId(),
-                    tag.getName()
+                    tag
             );
             conversationTagRepository.save(conversationTag);
         }
