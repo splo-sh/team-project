@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -40,8 +41,10 @@ public class Conversation {
     private Boolean pinned = false;
     private Boolean published = false;
 
+    @BatchSize(size = 1000)
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.PERSIST)
     private List<ConversationCategory> categories = new ArrayList<>();
+    @BatchSize(size = 1000)
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.PERSIST)
     private List<ConversationTag> tags = new ArrayList<>();
     private int viewCount;

@@ -33,7 +33,7 @@ public class QnAService {
 
     public List<QnA> findQnAs(long conversationId)
     {
-        return qnaRepository.findQnAsByConversationId(conversationId);
+        return qnaRepository.findAllByConversationId(conversationId);
     }
 
     public List<Map<String, String>> buildMessage(long conversationId)
@@ -59,7 +59,7 @@ public class QnAService {
 
     public List<Long> findConversationIDs(String query, long memberId)
     {
-        List<QnA> qnaList = qnaRepository.findAllByQuestionContainingOrAnswerContaining(query,query);
+        List<QnA> qnaList = qnaRepository.findAllByQuestionContainingOrAnswerContaining(query, query);
 
         List<Long> IDs = new ArrayList<>();
 
