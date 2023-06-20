@@ -17,7 +17,15 @@ GPT의 대화방이 쌓여감에 따라 자주 찾는 대화방일지라도 신�
 <br><br>
 
 ## 담당
-전반적인 비지니스 로직
+전반적인 비지니스 로직 담당
+
+github 폴더 바로가기 : 
+[대화방 관련](https://github.com/splo-sh/team-project/tree/main/server/src/main/java/com/codestates/seb43_main_012/conversation) /
+[질문-답변 관련](https://github.com/splo-sh/team-project/tree/main/server/src/main/java/com/codestates/seb43_main_012/qna) /
+[카테고리 관련](https://github.com/splo-sh/team-project/tree/main/server/src/main/java/com/codestates/seb43_main_012/category) /
+[컬렉션페이지 관련](https://github.com/splo-sh/team-project/tree/main/server/src/main/java/com/codestates/seb43_main_012/collection)
+
+---
 
 * 대화방 CRUD
 * 대화방 북마크
