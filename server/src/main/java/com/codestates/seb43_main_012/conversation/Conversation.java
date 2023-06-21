@@ -41,7 +41,7 @@ public class Conversation {
     private Boolean pinned = false;
     private Boolean published = false;
 
-    @BatchSize(size = 1000)
+    //@BatchSize(size = 1000)
     @OneToMany(mappedBy = "conversation", cascade = CascadeType.PERSIST)
     private List<ConversationCategory> categories = new ArrayList<>();
     @BatchSize(size = 1000)
