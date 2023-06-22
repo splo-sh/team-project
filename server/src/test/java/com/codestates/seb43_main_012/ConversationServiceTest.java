@@ -55,11 +55,14 @@ public class ConversationServiceTest {
     @Test
     public void n플러스1문제() throws Exception
     {
+        long beforeTime = System.currentTimeMillis();
 
         List<ConversationDto.ResponseForAll> response = conversationService.findConversationList("desc",null,1L);
 
-        //System.out.println(conversations.size());
+        long afterTime = System.currentTimeMillis();
+        long diffTime = afterTime - beforeTime;
+        System.out.println("실행시간(ms) : "+ diffTime);
 
-        assertEquals(10, response.size());
+        assertEquals(10000, response.size());
     }
 }
