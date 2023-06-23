@@ -1,4 +1,5 @@
 <br><br>
+FE 3명, BE 3명이 진행한 팀 프로젝트입니다.
 
 서비스 소개 및 프로젝트 팀 관련 정보는 [팀 github](https://github.com/codestates-seb/seb43_main_012)에서 확인하실 수 있습니다.
 
