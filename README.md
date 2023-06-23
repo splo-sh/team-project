@@ -16,7 +16,7 @@
 ## 담당
 전반적인 비지니스 로직 담당
 
-<br><br>
+<br>
 
 github 폴더 바로가기 : 
 [대화방 관련](https://github.com/splo-sh/team-project/tree/main/server/src/main/java/com/codestates/seb43_main_012/conversation) /
