@@ -5,6 +5,13 @@
 ---
 <br>
 
+## 확장, 개선 (진행중)
+[JPA n+1 문제](https://backwards.tistory.com/11) 
+<br>
+[지연로딩 문제 - 영속성 컨텍스트](https://backwards.tistory.com/10)
+
+<br>
+
 ## 소개
 
 저희 서비스 chatcrawl은 기존 chatGPT의 불편함을 개선하고자 만들어졌습니다.
