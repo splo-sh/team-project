@@ -1,6 +1,6 @@
 <br><br>
 
-프로젝트 팀 관련 정보는 [팀 github](https://github.com/codestates-seb/seb43_main_012)에서 확인하실 수 있습니다.
+서비스 소개 및 프로젝트 팀 관련 정보는 [팀 github](https://github.com/codestates-seb/seb43_main_012)에서 확인하실 수 있습니다.
 
 ---
 <br>
@@ -12,19 +12,11 @@
 
 <br>
 
-## 소개
-
-저희 서비스 chatcrawl은 기존 chatGPT의 불편함을 개선하고자 만들어졌습니다.
-
-chatGPT와 같은 OpenAI api를 사용하여 제작하였으며 기본적인 기능은 chatGPT와 동일합니다.
-
-GPT의 대화방이 쌓여감에 따라 자주 찾는 대화방일지라도 신규 대화방에 밀려 휠 스크롤 아래쪽으로 밀려나는 문제점이 존재합니다. 
-
-저희 서비스에서는 북마크, 태그, 핀 기능을 추가하여 원하는 정보에 쉽게 접근할 수 있도록 하였습니다.
-<br><br>
 
 ## 담당
 전반적인 비지니스 로직 담당
+
+<br><br>
 
 github 폴더 바로가기 : 
 [대화방 관련](https://github.com/splo-sh/team-project/tree/main/server/src/main/java/com/codestates/seb43_main_012/conversation) /
